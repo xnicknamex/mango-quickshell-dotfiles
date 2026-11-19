@@ -93,7 +93,7 @@ BarPopup {
                         highlight: true
                         fg: row.fg
                         text: "󰒮"
-                        opacity: row.modelData.canGoPrevious ? 1 : 0.5
+                        disabled: !row.modelData.canGoPrevious
                         onClicked: popup.media.previous(row.modelData)
                     }
 
@@ -102,7 +102,7 @@ BarPopup {
                         highlight: true
                         fg: row.fg
                         text: row.modelData.isPlaying ? "󰏤" : "󰐊"
-                        opacity: row.modelData.canTogglePlaying ? 1 : 0.5
+                        disabled: !row.modelData.canTogglePlaying
                         onClicked: popup.media.playPause(row.modelData)
                     }
 
@@ -111,7 +111,7 @@ BarPopup {
                         highlight: true
                         fg: row.fg
                         text: "󰒭"
-                        opacity: row.modelData.canGoNext ? 1 : 0.5
+                        disabled: !row.modelData.canGoNext
                         onClicked: popup.media.next(row.modelData)
                     }
                 }

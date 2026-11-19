@@ -5,6 +5,8 @@ import Quickshell
 
 Singleton {
     readonly property color turquoise: "#03fcf4"
+    // Disabled buttons (same as mango's unfocused border)
+    readonly property color purple: "#3F0685"
     readonly property string font: "monospace"
     readonly property int fontSize: 13
 
