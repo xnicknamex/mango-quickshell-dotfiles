@@ -121,6 +121,11 @@ Variants {
             }
         }
 
+        // Center: date and time, right click opens the calendar
+        Clock {
+            anchors.centerIn: parent
+        }
+
         // Status, right (in reading order: tray, bluetooth, network, mic, speaker, slider, battery)
         Row {
             anchors.right: parent.right
