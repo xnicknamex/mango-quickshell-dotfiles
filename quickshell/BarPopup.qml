@@ -5,12 +5,15 @@ import Quickshell
 // attached (default): hangs from the screen frame's top line directly under the bar,
 //   centered under `target`; if that does not fit between the frame's rounded
 //   corners, it snaps into the corner and also merges into the side line.
+// east: attached to the frame's right line instead, grows left out of `target`
+//   (a strip on that line), centered on it vertically.
 // normal (attached: false): plain box right of `target` (tray submenus).
 // grab (default): closes on click outside (native popup grab) or Escape.
 PopupWindow {
     id: popup
     property Item target: null
     property bool attached: true
+    property bool east: false
     property bool grab: true
     default property alias content: inner.data
 
@@ -31,7 +34,8 @@ PopupWindow {
     readonly property int centeredX: Math.round(targetRect.x + targetRect.width / 2 - topWidth / 2)
     readonly property int edgeLimit: Theme.frameRadius + Theme.frameWidth
     readonly property int screenWidth: hostWindow ? hostWindow.width : 0
-    readonly property string side: centeredX < edgeLimit ? "left"
+    readonly property string side: east ? "east"
+        : centeredX < edgeLimit ? "left"
         : centeredX + topWidth > screenWidth - edgeLimit ? "right"
         : "top"
     readonly property int attachedX: side === "left" ? 0
@@ -39,12 +43,13 @@ PopupWindow {
         : centeredX
 
     anchor.window: hostWindow
-    anchor.rect.x: attached ? attachedX : targetRect.x
-    anchor.rect.y: attached ? (hostWindow ? hostWindow.height : 0) : targetRect.y
-    anchor.rect.width: attached ? 0 : targetRect.width
-    anchor.rect.height: attached ? 0 : targetRect.height
-    anchor.edges: attached ? (Edges.Top | Edges.Left) : (Edges.Right | Edges.Top)
-    anchor.gravity: attached ? (Edges.Bottom | Edges.Right) : (Edges.Right | Edges.Bottom)
+    // east: anchored at the target's right edge, middle; grows left, centered vertically
+    anchor.rect.x: east || !attached ? targetRect.x : attachedX
+    anchor.rect.y: east || !attached ? targetRect.y : (hostWindow ? hostWindow.height : 0)
+    anchor.rect.width: east || !attached ? targetRect.width : 0
+    anchor.rect.height: east || !attached ? targetRect.height : 0
+    anchor.edges: east ? Edges.Right : attached ? (Edges.Top | Edges.Left) : (Edges.Right | Edges.Top)
+    anchor.gravity: east ? Edges.Left : attached ? (Edges.Bottom | Edges.Right) : (Edges.Right | Edges.Bottom)
     anchor.adjustment: attached ? PopupAdjustment.None : (PopupAdjustment.FlipX | PopupAdjustment.Slide)
 
     grabFocus: grab

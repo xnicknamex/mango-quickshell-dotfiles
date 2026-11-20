@@ -26,7 +26,14 @@ ShellRoot {
         bluetoothMenu: bluetoothControl
     }
 
-    Launcher {}
+    Launcher {
+        id: launcherMenu
+    }
+
+    Dock {
+        launcher: launcherMenu
+    }
+
     Clipboard {}
     FileSearch {}
     Notifications {}
