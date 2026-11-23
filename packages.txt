@@ -20,6 +20,7 @@ git
 grim
 haruna
 itinerary
+jq
 kate
 kde-cli-tools
 kdeconnect
