@@ -10,7 +10,6 @@ Column {
     id: icons
     property var entries: []
     property bool editing: false
-    readonly property bool hovered: hover.hovered
     readonly property int cell: 36
     readonly property int slot: cell + spacing
 
@@ -22,14 +21,11 @@ Column {
     padding: 4
     spacing: 2
 
-    HoverHandler {
-        id: hover
-    }
-
     Rectangle {
         visible: icons.editing
         width: icons.cell
         height: icons.cell
+        radius: Theme.hoverRadius
         color: "black"
         border.color: Theme.turquoise
         border.width: plusArea.containsMouse ? 1 : 0
@@ -84,6 +80,7 @@ Column {
                 y: slotIndex * icons.slot
                 width: icons.cell
                 height: icons.cell
+                radius: Theme.hoverRadius
                 color: "black"
                 border.color: Theme.turquoise
                 border.width: area.containsMouse ? 1 : 0

@@ -16,6 +16,8 @@ PopupWindow {
     property bool east: false
     property bool grab: true
     default property alias content: inner.data
+    // Mouse anywhere over the popup window (outline, bends, content)
+    readonly property bool hovered: windowHover.hovered
 
     function toggle() {
         visible = !visible;
@@ -58,6 +60,14 @@ PopupWindow {
     implicitHeight: attached ? outline.windowHeight : contentHeight + 2
 
     onVisibleChanged: if (visible && grab) keys.forceActiveFocus()
+
+    Item {
+        anchors.fill: parent
+
+        HoverHandler {
+            id: windowHover
+        }
+    }
 
     AttachedOutline {
         id: outline

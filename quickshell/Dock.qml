@@ -111,7 +111,7 @@ Scope {
             // Hover mode closes 300ms after the mouse left the strip and the popup
             Timer {
                 interval: 300
-                running: screenDock.mode === "hover" && !stripHover.hovered && !looseIcons.hovered
+                running: screenDock.mode === "hover" && !stripHover.hovered && !loose.hovered
                 onTriggered: {
                     screenDock.mode = "closed";
                     loose.visible = false;
@@ -164,7 +164,6 @@ Scope {
                 grab: false
 
                 DockIcons {
-                    id: looseIcons
                     entries: dock.entries
                     editing: screenDock.mode === "picking"
                     onLaunched: entry => {
