@@ -9,6 +9,7 @@ import Quickshell.Io
 // Right click: the same popup in edit mode, a normal popup (outside click, Escape
 //   or another right click closes it). Plus: pick an app in the launcher to add it,
 //   click removes, drag reorders.
+// Too many icons for the screen: the list scrolls with the mouse wheel.
 // The apps are listed in ./dock, one desktop entry id per line in dock order.
 Scope {
     id: dock
@@ -63,8 +64,18 @@ Scope {
             // moment later, so the swap is not visible.
             property string mode: "closed"
 
+            // Scroll position of the icon list, shared by both popups so a swap does
+            // not jump; top when opened from closed, the icons clamp it to the end
+            property real scrollY: 0
+            // Icon column height that keeps the popup (with its bends) clear of the
+            // frame corners: free height below the bar minus a corner above and below
+            readonly property int maxIconsHeight: modelData.height - Theme.barHeight
+                - 4 * Theme.frameRadius - Theme.frameWidth
+
             // From closed, hover or picking
             function openEdit() {
+                if (mode === "closed")
+                    scrollY = 0;
                 mode = "edit";
                 grabbed.visible = true;
                 if (loose.visible)
@@ -81,8 +92,11 @@ Scope {
                 target: dock.launcher
 
                 function onPicked(id) {
-                    if (screenDock.mode === "picking")
+                    if (screenDock.mode === "picking") {
                         dock.add(id);
+                        // Show the new app at the end
+                        screenDock.scrollY = Number.MAX_SAFE_INTEGER;
+                    }
                 }
 
                 function onPickFinished() {
@@ -137,6 +151,7 @@ Scope {
                         id: stripHover
                         onHoveredChanged: {
                             if (hovered && screenDock.mode === "closed" && dock.entries.length > 0) {
+                                screenDock.scrollY = 0;
                                 screenDock.mode = "hover";
                                 loose.visible = true;
                             }
@@ -166,6 +181,9 @@ Scope {
                 DockIcons {
                     entries: dock.entries
                     editing: screenDock.mode === "picking"
+                    maxHeight: screenDock.maxIconsHeight
+                    scrollY: screenDock.scrollY
+                    onScrollRequested: y => screenDock.scrollY = y
                     onLaunched: entry => {
                         screenDock.mode = "closed";
                         loose.visible = false;
@@ -186,6 +204,9 @@ Scope {
                 DockIcons {
                     entries: dock.entries
                     editing: true
+                    maxHeight: screenDock.maxIconsHeight
+                    scrollY: screenDock.scrollY
+                    onScrollRequested: y => screenDock.scrollY = y
                     onRemoved: entry => dock.remove(entry)
                     onMoved: (from, to) => dock.move(from, to)
                     onAddRequested: screenDock.startPick()

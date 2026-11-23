@@ -10,6 +10,8 @@ Singleton {
     readonly property string font: "monospace"
     readonly property int fontSize: 13
 
+    readonly property int barHeight: 20
+
     // Screen frame and attached popups
     readonly property int frameWidth: 3
     // Frame corners and the bends where popups merge into the frame:

@@ -45,7 +45,7 @@ Variants {
             left: true
             right: true
         }
-        implicitHeight: 20
+        implicitHeight: Theme.barHeight
         color: "black"
 
         // Left: tags, then the media entry
