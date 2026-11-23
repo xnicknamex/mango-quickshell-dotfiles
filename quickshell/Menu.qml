@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
@@ -108,6 +109,7 @@ Scope {
             anchors.centerIn: parent
             width: 400
             height: content.implicitHeight + 2
+            radius: Theme.cornerRadius
             color: "black"
             border.color: Theme.turquoise
             border.width: 1
@@ -183,6 +185,27 @@ Scope {
                     }
                 }
 
+                // Separator between search field and list, only when there are results
+                Rectangle {
+                    visible: list.visible && list.count > 0
+                    width: parent.width
+                    height: 1
+                    color: Theme.turquoise
+                }
+
+                // Bottom corners of the list follow the box's rounded border, so a
+                // highlighted row at the bottom is cut along the curve (also mid-scroll)
+                Rectangle {
+                    id: listMask
+                    visible: false
+                    layer.enabled: true
+                    width: list.width
+                    height: list.height
+                    // Box radius minus its 1px border; square when the status line is below
+                    bottomLeftRadius: menu.message === "" ? Theme.cornerRadius - 1 : 0
+                    bottomRightRadius: bottomLeftRadius
+                }
+
                 ListView {
                     id: list
                     visible: !menu.inputMode
@@ -191,6 +214,15 @@ Scope {
                     height: visible ? Math.min(contentHeight, menu.maxHeight) : 0
                     clip: true
                     boundsBehavior: Flickable.StopAtBounds
+
+                    layer.enabled: visible && height > 0
+                    layer.effect: MultiEffect {
+                        maskEnabled: true
+                        maskSource: listMask
+                        // Smooth (antialiased) mask edge
+                        maskThresholdMin: 0.5
+                        maskSpreadAtMin: 1.0
+                    }
 
                     model: ScriptModel {
                         values: menu.inputMode ? [] : menu.items.filter(i => i.label.toLowerCase().includes(search.text.toLowerCase()))

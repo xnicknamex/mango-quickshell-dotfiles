@@ -24,6 +24,7 @@ Rectangle {
     readonly property color fg: highlighted ? "black" : Theme.turquoise
 
     implicitHeight: layout.implicitHeight + 4
+    radius: Theme.hoverRadius
     color: highlighted ? Theme.turquoise : "black"
 
     HoverHandler {

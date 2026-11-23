@@ -210,6 +210,7 @@ Scope {
 
                                     width: label.implicitWidth + 2 * root.padding
                                     height: label.implicitHeight + 2
+                                    radius: Theme.hoverRadius
                                     color: area.containsMouse ? Theme.turquoise : "black"
                                     border.color: Theme.turquoise
                                     border.width: 1

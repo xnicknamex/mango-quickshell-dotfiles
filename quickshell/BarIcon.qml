@@ -21,6 +21,7 @@ StyledText {
         visible: icon.highlight && icon.hovered && !icon.disabled
         anchors.fill: parent
         anchors.margins: -2
+        radius: Theme.hoverRadius
         color: Theme.turquoise
     }
 

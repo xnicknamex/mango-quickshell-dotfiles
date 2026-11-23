@@ -23,6 +23,7 @@ BarPopup {
         Rectangle {
             width: content.width - 2 * content.padding
             height: popup.rowHeight
+            radius: Theme.hoverRadius
             color: autoHover.hovered ? Theme.turquoise : "black"
 
             HoverHandler {
@@ -59,6 +60,7 @@ BarPopup {
 
                 width: content.width - 2 * content.padding
                 height: popup.rowHeight
+                radius: Theme.hoverRadius
                 color: highlighted ? Theme.turquoise : "black"
 
                 HoverHandler {

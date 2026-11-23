@@ -162,6 +162,7 @@ BarIcon {
 
                         width: 24
                         height: 18
+                        radius: Theme.hoverRadius
                         color: today ? Theme.turquoise : "black"
                         border.color: today ? "black" : Theme.turquoise
                         border.width: area.containsMouse && modelData > 0 ? 1 : 0

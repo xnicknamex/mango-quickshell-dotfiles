@@ -66,6 +66,7 @@ BarPopup {
                 Rectangle {
                     visible: !row.modelData.isSeparator
                     anchors.fill: parent
+                    radius: Theme.hoverRadius
                     color: row.highlighted ? Theme.turquoise : "black"
                     opacity: row.modelData.enabled ? 1 : 0.5
 
